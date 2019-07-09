@@ -1,8 +1,7 @@
 IT资产管理系统
+![图例](https://github.com/SuperLandy/cmdb/blob/master/example.png)
 
 # 说明  
-\# 开头的行表示注释  
-\> 开头的行表示需要在 mysql 中执行  
 \$ 开头的行表示需要执行的命令  
 
 # 环境
