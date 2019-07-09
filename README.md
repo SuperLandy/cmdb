@@ -18,7 +18,7 @@ $ setenforce 0
 $ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config  
 
 # 安装依赖包
-$ yum -y install wget gcc epel-release git  
+$ yum -y install wget gcc epel-release git nginx  
 
 # 安装 Mariadb
 $ yum -y install mariadb mariadb-devel mariadb-server MariaDB-shared  
@@ -63,6 +63,20 @@ $ vi settings.py
         'PORT': '3306',  
     }  
  }  
+
+# 配置nginx
+$ vi /etc/nginx/conf.d/cmdb.conf
+#### server {
+        listen 80;
+        server_name www.example.com;
+        location ~/static {
+                root  /opt/cmdb/;
+        }
+        location / {
+                index index.html;
+                proxy_pass http://127.0.0.1:8080;
+        }
+}
 
 # 启动项目
 $ chmod +x /opt/cmdb/start.sh  
