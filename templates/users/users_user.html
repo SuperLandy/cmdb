@@ -1,0 +1,89 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+    <div class="col-sm-10">
+        <h2></h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/dashboard/">仪表盘</a>
+            </li>
+            <li>
+                <a>用户管理</a>
+            </li>
+            <li class="active">
+                <strong>用户列表</strong>
+            </li>
+        </ol>
+    </div>
+
+    <div class="row tile_count">
+        <div class="col-md-6 col-sm-12 col-xs-12 tile_stats_count">
+            <table class="table table-striped table-bordered table-hover " id="user_list_table" >{% csrf_token %}
+            <thead>
+                <tr>
+                    <th class="text-center">用户名</th>
+                    <th class="text-center">角色</th>
+                    <th class="text-center">邮箱</th>
+                    <th class="text-center">动作</th>
+                </tr>
+
+                <tr>
+                {% for row in user_result %}
+
+                    <td style="text-align: center;" contentEditable="true" id="U_username">{{ row.username }}</td>
+                        {% if row.is_superuser == 1 %}
+                            <td style="text-align: center;">
+                                <select id="U_power">
+                                    <option value="1"  selected = "selected" >超级管理员</option>
+                                    <option value="0">普通用户</option>
+                                </select>
+                            </td>
+                            {% else %}
+                            <td style="text-align: center;" >
+                                <select id="U_power">
+                                    <option value ="1" >超级管理员</option>
+                                    <option value ="0" selected = "selected">普通用户</option>
+                                </select>
+                            </td>
+                        {% endif %}
+                    <td style="text-align: center; "contentEditable="true" id="U_email">{{ row.email }}</td>
+
+                    <th class="text-center">
+                        <button type="button" onclick="commit({{ row.id }})">修改</button>
+                    </th>
+                    </tr>
+                {% endfor %}
+                </thead>
+            </table>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        function commit(uid) {
+            const token = $('input[name=csrfmiddlewaretoken]').val();
+            const U_username = document.getElementById('U_username').innerHTML;
+            const U_power = document.getElementById("U_power").value;
+            const U_email = document.getElementById('U_email').innerHTML;
+            $.ajax({
+                url: '/users/update/' + uid +'/',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'csrfmiddlewaretoken': token,
+                    'id': uid,
+                    'username': U_username,
+                    'power': U_power,
+                    'email': U_email
+                },
+                success: function (result) {
+                    if(result.msg == '0000'){
+                        alert('修改成功'),
+                        window.location.href = '/users/user/'
+                    }else
+                        alert(result.msg)
+                }
+            })
+        }
+    </script>
+{% endblock %}

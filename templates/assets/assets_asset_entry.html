@@ -1,0 +1,123 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+    <div class="col-sm-10">
+        <h2></h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/dashboard/">仪表盘</a>
+            </li>
+            <li>
+                <a>资产管理</a>
+            </li>
+            <li class="active">
+                <strong>资产录入</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="row tile_count">
+        <div class="col-md-6 col-sm-12 col-xs-12 tile_stats_count">
+            <div class="ibox-content">
+            <form id="assess_list" >{% csrf_token %}
+                <table class="table" >
+                    <tbody>
+                    <tr class="no-borders-tr">
+                        <td width="20%">主机名:</td>
+                        <td><b><input type="text" name="hostname" required></b></td>
+                    </tr>
+                    <tr>
+                        <td>IP:</td>
+                        <td><b><input type="text" name="ip" required></b></td>
+                    </tr>
+                    <tr>
+                        <td>公网IP:</td>
+                        <td><b><input type="text" name="public_ip"></b></td>
+                    </tr>
+                    <tr>
+                        <td>协议</td>
+                        <td>
+                            <b><select name="protocol">
+                                <option value="ssh">ssh</option>
+                                <option value="rdp">rdp</option>
+                            </select>
+                            </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>端口:</td>
+                        <td><b><input type="text" name="port" required></b></td>
+                    </tr><tr>
+                    <tr>
+                        <td>资产用户:</td>
+                            <td><b>
+                                <select name="assets_id">
+                                    {% for row in user_obj %}
+                                            <option value="{{ row.id }}">{{ row.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </b>
+                    </tr><tr>
+                        <td>制造商:</td>
+                        <td><b><input type="text" name="vendor"></b></td>
+                    </tr>
+                    <tr>
+                        <td>型号:</td>
+                        <td><b><input type="text" name="model"></b></td>
+                    </tr>
+                    <tr>
+                        <td>CPU:</td>
+                        <td><b><input type="text" name="cpu_cores"></b></td>
+                    </tr>
+                    <tr>
+                        <td>内存:</td>
+                        <td><b><input type="text" name="memory"></b></td>
+                    </tr>
+                    <tr>
+                        <td>硬盘:</td>
+                        <td><b><input type="text" name="disk_info"></b></td>
+                    </tr>
+                    <tr>
+                        <td>操作系统:</td>
+                        <td><b><input type="text" name="os"></b></td>
+                    </tr>
+                    <tr>
+                        <td>序列号:</td>
+                        <td><b><input type="text" name="sn"></b></td>
+                    </tr>
+                    <tr>
+                        <td>资产编号:</td>
+                        <td><b><input type="text" name="number"></b></td>
+                    </tr>
+                    <tr>
+                        <td>备注:</td>
+                        <td><b><input type="text" name="remarks"></b></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </form>
+            <button onclick="commit()"> 提交</button>
+            </div>
+        </div>
+        </div>
+
+    <script type="text/javascript">
+        function commit() {
+            const assess_list = $('#assess_list').serialize();
+            $.ajax({
+                url: '/assets/entry/',
+                type: 'POST',
+                data: assess_list,
+                success: function (result) {
+                    if(result.msg == '0000'){
+                        alert('资产已成功录入'),
+                        window.location.href = '/assets/asset/'
+                    }else {
+                        alert(result.msg )
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock %}

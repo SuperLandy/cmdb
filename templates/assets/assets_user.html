@@ -1,0 +1,80 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+    <div class="col-sm-10">
+        <h2></h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/dashboard/">仪表盘</a>
+            </li>
+            <li>
+                <a>资产管理</a>
+            </li>
+            <li class="active">
+                <strong>资产用户</strong>
+            </li>
+        </ol>
+        <a href="/assets/user/entry/">
+            <button>添加资产用户</button>
+        </a>
+    </div>
+    <div class="row tile_count">
+        <div class="col-md-6 col-sm-12 col-xs-12 tile_stats_count">
+
+            <table class="table table-striped table-bordered table-hover">{% csrf_token %}
+
+            <thead>
+                <tr>
+                    <th class="text-center">用户名</th>
+                    <th class="text-center">创建时间</th>
+                    <th class="text-center">动作</th>
+                </tr>
+                <tr>
+                {% for row in user_result %}
+                    <td style="text-align: center;" id="name">{{ row.name }}</td>
+                    <td style="text-align: center;">{{ row.date_created }}</td>
+                    <th class="text-center">
+                        <input type="hidden" name="uid_token" value="{{ row.id }}">
+                        <a href="/assets/user/{{ row.id }}"><button type="button">更新</button></a>
+                        <button type="button"  onclick="delete_asset_user()">删除</button>
+                    </th>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        function delete_asset_user() {
+            const token = $('input[name=csrfmiddlewaretoken]').val();
+            const id = $('input[name=uid_token]').val();
+            const name = document.getElementById('name').innerHTML;
+            if(confirm('确认删除' + name +'?')) {
+                $.ajax({
+                    url: '/assets/user/' + id + '/delete/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': token,
+                        'uid': id,
+                    },
+                    success: function (result) {
+                        if (result.msg == '0000') {
+                            alert('删除成功'),
+                                window.location.href = '/assets/user/'
+                        } else {
+                            alert(result.msg)
+                        }
+                    }
+                })
+            }
+            else {
+                window.location.href = '/assets/user/'
+
+            }
+
+        }
+    </script>
+{% endblock %}

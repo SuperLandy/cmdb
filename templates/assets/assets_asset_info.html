@@ -1,0 +1,96 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+    <div class="col-sm-10">
+        <h2></h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/dashboard/">仪表盘</a>
+            </li>
+            <li>
+                <a>资产管理</a>
+            </li>
+            <li class="active">
+                <strong>资产详情</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="row tile_count">
+        <div class="col-md-6 col-sm-12 col-xs-12 tile_stats_count">
+            <div class="ibox-content">
+                <table class="table">
+                    <tbody>
+                    <tr class="no-borders-tr">
+                        <td width="20%">主机名:</td>
+                        <td><b>{{ assets_result.hostname }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>IP:</td>
+                        <td><b>{{ assets_result.ip }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>公网IP:</td>
+                        <td><b>{{ assets_result.public_ip }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>协议</td>
+                        <td>
+                            <b>{{ assets_result.protocol }} / {{ assets_result.port }}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>管理用户:</td>
+                        <td><b>root</b></td>
+                    </tr>
+                    <tr>
+                        <td>制造商:</td>
+                        <td><b>{{ assets_result.vendor }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>型号:</td>
+                        <td><b>{{ assets_result.model }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>CPU:</td>
+                        <td><b>{{ assets_result.cpu_cores }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>内存:</td>
+                        <td><b>{{ assets_result.memory }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>硬盘:</td>
+                        <td><b>{{ assets_result.disk_info }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>操作系统:</td>
+                        <td><b>{{ assets_result.os }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>激活:</td>
+                        <td><b>{{ assets_result.is_active }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>序列号:</td>
+                        <td><b>{{ assets_result.sn }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>资产编号:</td>
+                        <td><b>{{ assets_result.number }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>创建日期:</td>
+                        <td><b>{{ assets_result.date_crated }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>备注:</td>
+                        <td><b>{{ assets_result.remarks }}</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

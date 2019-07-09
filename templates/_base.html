@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+  <head>
+      {% load staticfiles %}
+    <link REL="shortcut icon" href="{% static "favicon.ico" %}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>工作台|xx科技 </title>
+
+    <!-- Bootstrap -->
+    <link href="/static/css/build/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/css/build/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/css/build/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/static/css/build/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="/static/css/bootstrap/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="/static/css/build/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/css/build/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/css/build/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="nav_title" style="border: 0;">
+              <a href="/dashboard/" class="site_title"><i class="fa fa-paw"></i> <span>xx公司</span></a>
+            </div>
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="/static/images/img.jpg" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                  <span>欢迎</span>
+                  {% if request.session.is_superuser %}
+                      <h2>{{ request.session.username }} ( 超级管理员 )</h2>
+                  {% else %}
+                      <h2>{{ request.session.username }} ( 管理员 )</h2>
+                  {% endif %}
+              </div>
+            </div><br/>
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> 用户管理 <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/users/user/">用户列表</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i> 权限管理 <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">资产授权</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i> 作业中心 <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">任务列表</a></li>
+                      <li><a href="#">批量命令</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-table"></i> 资产管理 <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/assets/user/">资产用户</a></li>
+                      <li><a href="/assets/asset/">资产详情</a></li>
+                      <li><a href="/assets/entry/">资产录入</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+              <div class="sidebar-footer hidden-small">
+                  <a data-toggle="tooltip" data-placement="top" title="Settings">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                  </a>
+                  <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                  </a>
+                  <a data-toggle="tooltip" data-placement="top" title="Lock">
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                  </a>
+                  <a data-toggle="tooltip" data-placement="top" title="退出" href="/logout/">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                  </a>
+                </div>
+          </div>
+
+        </div>
+      </div>
+    <div class="right_col" role="main">
+         {% block content %}
+         {% endblock %}
+    </div>
+    </div>
+
+
+
+
+<!-- jQuery -->
+    <script src="/static/js/bootstrap/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/js/bootstrap/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/js/build/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/js/build/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="/static/js/build/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="/static/js/build/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/js/bootstrap/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/js/build/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="/static/js/build/skycons.js"></script>
+    <!-- Flot -->
+    <script src="/static/js/build/jquery.flot.js"></script>
+    <script src="/static/js/build/jquery.flot.pie.js"></script>
+    <script src="/static/js/build/jquery.flot.time.js"></script>
+    <script src="/static/js/build/jquery.flot.stack.js"></script>
+    <script src="/static/js/build/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="/static/js/build/jquery.flot.orderBars.js"></script>
+    <script src="/static/js/build/jquery.flot.spline.min.js"></script>
+    <script src="/static/js/build/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="/static/js/data/date.js"></script>
+    <!-- JQVMap -->
+    <script src="/static/js/build/jquery.vmap.js"></script>
+    <script src="/static/js/build/jquery.vmap.world.js"></script>
+    <script src="/static/js/build/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/js/build/moment.min.js"></script>
+    <script src="/static/js/build/daterangepicker.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="/static/js/build/custom.min.js"></script>
+
+  </body>
+</html>
