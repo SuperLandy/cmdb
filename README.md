@@ -82,3 +82,11 @@ $ vi /etc/nginx/conf.d/cmdb.conf
 $ chmod +x /opt/cmdb/start.sh  
 $ /opt/cmdb/start.sh  
 $ systemctl start nginx
+
+## 创建超级管理员
+$ cd /opt/cmdb/cmdb
+$ source /opt/py3/bin/activate
+$ python manage.py createsuperuser #根据提示输入账号密码
+
+## 更新
+$ cd /opt/cmdb/ && git pull
