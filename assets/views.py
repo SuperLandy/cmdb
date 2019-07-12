@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
-from assets.models import Asset, Administrator
+from assets.models import Asset, Administrator, AssetGroup
 import django.utils.timezone as timezone
 
 # Create your views here.
@@ -10,20 +10,106 @@ import django.utils.timezone as timezone
 @login_required()
 def asset_asset(request, aid=None):
     """
-    aid为None只显示部分资产信息，否则查询所有资产信息
     :param request:
     :param aid:
     :return:
     """
     if aid is None:
-        assets_result = Asset.objects.all().values('id', 'ip', 'hostname', 'protocol')
-        return render(request, 'assets/assets_asset.html', {'assets_result': assets_result})
+        return redirect('/assets/asset/group/')
     else:
         assets_result = {}
         result = Asset.objects.filter(id=aid).values()
+        assets_name = Asset.objects.filter(id=aid).values('assets_user__name')[0]
+        assets_group = Asset.objects.filter(id=aid).values('assets_group__group_name')[0]
         for row in result:
             assets_result = row
-        return render(request, 'assets/assets_asset_info.html', {'assets_result': assets_result})
+        return render(request, 'assets/assets_asset_info.html', {'assets_result': assets_result,
+                                                                 'assets_name': assets_name,
+                                                                 'assets_group': assets_group})
+
+
+@login_required()
+def asset_asset_group(request, gid=None):
+    """
+    gid为None显全部资产组名，否则查询具体组下的资产信息
+    :param request:
+    :param gid: 资产组ID
+    :return:
+    """
+    if gid is None:
+        list_group = AssetGroup.objects.all().values('group_id', 'group_name')
+        return render(request, 'assets/assets_asset_group.html', {'list_group': list_group})
+    else:
+        list_assets = AssetGroup.objects.filter(group_id=gid).values('asset__id',  'asset__ip', 'asset__hostname',
+                                                                     'asset__protocol')
+        if list_assets[0].get('asset__id') is None:
+            return redirect('/assets/asset/group/')
+        else:
+            return render(request, 'assets/assets_asset.html', {'list_assets': list_assets})
+
+
+@login_required()
+def asset_group(request, gid=None):
+    """
+    get： 查看资产组信息，group_id不为空，只查询单条信息
+    :param request:
+    :param gid:
+    :return:
+    """
+    if request.method == 'GET':
+        if gid is None:
+            group_list = AssetGroup.objects.values().values('group_id', 'group_name')
+            return render(request, 'assets/assets_group.html', {'group_list': group_list})
+        else:
+            group = AssetGroup.objects.filter(group_id=gid).values('group_id', 'group_name')
+            return render(request, 'assets/assets_group_info.html', {'group': group})
+    if request.method == 'POST':
+        if gid is None:
+            return JsonResponse({'msg': 'group_id不为空'})
+        group_name = request.POST.get('group_name', None)
+        if group_name is None:
+            return JsonResponse({'msg': '资产组名不为空'})
+        AssetGroup.objects.filter(group_id=gid).update(group_name=group_name)
+        return JsonResponse({'msg': '更新成功'})
+
+
+@login_required()
+def asset_group_create(request):
+    """
+    post 创建资产组
+    :param request:
+    :return:
+    """
+    role = request.session.get('is_superuser')
+    if request.method == 'POST':
+        if role:
+            group_name = request.POST.get('group_name', None)
+            if group_name is None:
+                return JsonResponse({'msg': '组名不为空'})
+            if AssetGroup.objects.filter(group_name=group_name).count() != 0:
+                return JsonResponse({'msg': '组名已存在'})
+            AssetGroup.objects.create(group_name=group_name)
+            return JsonResponse({'msg': '资产组添加成功'})
+        else:
+            return JsonResponse({'msg': '权限不足'})
+    else:
+        return render(request, 'assets/assets_group_create.html')
+
+
+@login_required()
+def asset_group_delete(request):
+    role = request.session.get('is_superuser')
+    if request.method == 'POST':
+        if role:
+            group_id = request.POST.get('group_id')
+            if AssetGroup.objects.filter(group_id=group_id).count() == 0:
+                return JsonResponse({'msg': '资产组不存在'})
+            AssetGroup.objects.filter(group_id=group_id).delete()
+            return JsonResponse({'msg': '删除成功'})
+        else:
+            return JsonResponse({'msg': '权限不足'})
+    else:
+        return redirect('/assets/group/')
 
 
 @login_required()
@@ -51,7 +137,8 @@ def asset_entry(request):
     """
     if request.method == 'GET':
         user_obj = Administrator.objects.all().values('id', 'name')
-        return render(request, 'assets/assets_asset_entry.html', {'user_obj': user_obj})
+        group_obj = AssetGroup.objects.all().values('group_id', 'group_name')
+        return render(request, 'assets/assets_asset_entry.html', {'user_obj': user_obj, 'group_obj': group_obj})
     if request.method == 'POST':
         ip = request.POST.get('ip', None)
         if ip is None:
@@ -69,6 +156,9 @@ def asset_entry(request):
         assets_user_id = request.POST.get('assets_id', None)
         if assets_user_id is None:
             return JsonResponse({'msg': '资产用户不能为空'})
+        assets_group_id = request.POST.get('group_id', None)
+        if assets_group_id is None:
+            return JsonResponse({'msg': '资产组不能为空'})
         vendor = request.POST.get('vendor', None)
         model = request.POST.get('model', None)
         cpu_cores = request.POST.get('cpu_cores', None)
@@ -79,8 +169,9 @@ def asset_entry(request):
         number = request.POST.get('number', None)
         remarks = request.POST.get('remarks', None)
         Asset.objects.create(ip=ip, hostname=hostname, public_ip=public_ip, protocol=protocol,  port=port,
-                             assets_user_id=assets_user_id, vendor=vendor, model=model, cpu_cores=cpu_cores,
-                             memory=memory, disk_info=disk_info, os=os, sn=sn, number=number, remarks=remarks
+                             assets_user_id=assets_user_id, assets_group_id=assets_group_id, vendor=vendor, model=model,
+                             cpu_cores=cpu_cores, memory=memory, disk_info=disk_info, os=os, sn=sn, number=number,
+                             remarks=remarks
                              )
         return JsonResponse({'msg': '0000'})
     else:
@@ -144,7 +235,6 @@ def asset_user_entry(request):
             return JsonResponse({'msg': '权限不足'})
     else:
         return render(request, 'assets/assets_user_entry.html')
-
 
 
 @login_required()

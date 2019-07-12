@@ -28,13 +28,13 @@
                 </tr>
 
                 <tr>
-                {% for row in assets_result %}
-                    <td style="text-align: center;">{{ row.hostname }}</td>
-                    <td style="text-align: center;">{{ row.ip }}</td>
-                    <td style="text-align: center;">{{ row.protocol }}</td>
+                {% for row in list_assets %}
+                    <td style="text-align: center;">{{ row.asset__hostname }}</td>
+                    <td style="text-align: center;">{{ row.asset__ip }}</td>
+                    <td style="text-align: center;">{{ row.asset__protocol }}</td>
                     <th class="text-center">
-                        <a href="/assets/asset/{{ row.id }}"><button type="button">查看</button></a>
-                        <input type="hidden" name="assess_id" value="{{ row.id }}">
+                        <a href="/assets/asset/{{ row.asset__id }}"><button type="button">查看</button></a>
+                        <input type="hidden" name="assess_id" value="{{ row.asset__id }}">
                         <button type="button" onclick="del()">删除</button>
                     </th>
                     </tr>
@@ -52,7 +52,7 @@
                 success: function (result) {
                     if(result.msg == '0000'){
                             alert('删除成功')
-                            window.location.href = '/assets/asset/'
+                            window.location.href = '/assets/asset/group/'
                     }else
                     {alert(result.msg )}
                 }

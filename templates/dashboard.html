@@ -6,21 +6,21 @@
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> 用户总数</span>
               <div class="count">{{ user_info.users }}</div>
-                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> All users</span>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> User count</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-clock-o"></i> 在线用户数</span>
-              <div class="count">{{ user_info.user_online }}</div>
-                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Online users</span>
+              <span class="count_top"><i class="fa fa-clock-o"></i> 资产类型</span>
+              <div class="count">{{ user_info.assets_group }}</div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Type count</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"> 资产总数</i> </span>
               <div class="count">{{ user_info.assets_total }}</div>
-                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> All hosts</span>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Hosts count</span>
             </div><div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> 资产用户数</span>
+              <span class="count_top"><i class="fa fa-user"></i> 资产用户</span>
               <div class="count">{{ user_info.assets_user }}</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Online sessions</span>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Asset count</span>
             </div>
           </div>
           <!-- /top tiles -->
@@ -211,7 +211,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320 overflow_hidden">
                 <div class="x_title">
-                  <h2>用户类型</h2>
+                  <h2>资产情况</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -237,49 +237,28 @@
                       </th>
                       <th>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                          <p class="">Device</p>
+                          <p class="">设备类型</p>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                          <p class="">Progress</p>
+                        <div class="col-lg-5 col-md-7 col-sm-7 col-xs-7">
+                          <p style="padding: 0 0 0 40px">设备数量</p>
                         </div>
                       </th>
                     </tr>
                     <tr>
                       <td>
-                        <canvas class="canvasDoughnut" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
+                        <canvas class="canvasDoughnut1"  height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
                       </td>
                       <td>
                         <table class="tile_info">
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square blue"></i>IOS </p>
-                            </td>
-                            <td>30%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square green"></i>Android </p>
-                            </td>
-                            <td>10%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square purple"></i>Blackberry </p>
-                            </td>
-                            <td>20%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square aero"></i>Symbian </p>
-                            </td>
-                            <td>15%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square red"></i>Others </p>
-                            </td>
-                            <td>30%</td>
-                          </tr>
+                            {% for k,v in list_group %}
+                                <tr>
+                                    <td id="group_name_{{ forloop.counter }}">
+                                      <p><i class="fa fa-square red"></i>{{ k }}</p>
+                                    </td>
+                                    <td id="group_index_{{ forloop.counter }}">{{ v }}</td>
+                                </tr>
+                            {% endfor %}
+
                         </table>
                       </td>
                     </tr>
@@ -341,4 +320,5 @@
               </div>
             </div>
           </div>
+
 {% endblock %}

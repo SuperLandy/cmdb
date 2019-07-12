@@ -17,11 +17,18 @@ Including another URLconf
 from django.urls import path
 from assets import views
 
-
 urlpatterns = [
-    path('asset/', views.asset_asset),
+    # path('asset/', views.asset_asset),
+    path('asset/group/', views.asset_asset_group),
+    path('asset/group/<uuid:gid>/', views.asset_asset_group),
+
     path('asset/<uuid:aid>/', views.asset_asset),
     path('asset/<uuid:aid>/delete/', views.asset_asset_delete),
+
+    path('group/', views.asset_group),
+    path('group/<uuid:gid>/', views.asset_group),
+    path('group/create/', views.asset_group_create),
+    path('group/delete/', views.asset_group_delete),
 
     path('user/', views.asset_user),
     path('user/entry/', views.asset_user_entry),

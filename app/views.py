@@ -2,9 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.sessions.models import Session
-from assets.models import Asset, Administrator
-from datetime import datetime
+from assets.models import Asset, Administrator, AssetGroup
 
 # Create your views here.
 
@@ -35,42 +33,26 @@ def user_login(request):
 
 @login_required()
 def dashboard(request):
-    uid = request.session.get('_auth_user_id')
+
     user_info = {}
-    user_data = list(User.objects.filter(id=uid).values('is_superuser', 'username'))[0]
+    list_group = []
     users = User.objects.all().count()
-    user_online = Session.objects.filter(expire_date__gte=datetime.now()).count()
+    assets_group = AssetGroup.objects.all().count()
     assets_total = Asset.objects.all().count()
     assets_user = Administrator.objects.all().count()
-    user_info['user_data'] = user_data
     user_info['users'] = users
-    user_info['user_online'] = user_online
+    user_info['assets_group'] = assets_group
     user_info['assets_total'] = assets_total
     user_info['assets_user'] = assets_user
-    return render(request, 'dashboard.html', {"user_info": user_info})
+    group_name = AssetGroup.objects.all().values('group_id', 'group_name')
+    for group_id in group_name:
+        result = Asset.objects.filter(assets_group_id=group_id['group_id']).count()
+        list_group.append((group_id['group_name'], result))
+    return render(request, 'dashboard.html', {"user_info": user_info,
+                                              'list_group': list_group})
 
 
 @login_required()
 def user_logout(request):
     logout(request)
     return redirect('/')
-
-
-def user_register(request):
-    if request.method == 'GET':
-        return render(request, 'register.html')
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        user_search = User.objects.filter(username=username).count()
-        email_search = User.objects.filter(email=email).count()
-        if user_search != 0:
-            return render(request, 'register.html', {'result': '用户已存在!'})
-        elif email_search != 0:
-            return render(request, 'register.html', {'result': '邮箱已存在!'})
-        else:
-            User.objects.create_user(username=username, email=email, password=password)
-            return render(request, 'register.html', {'result': '成功'})
-    else:
-        return redirect('/')

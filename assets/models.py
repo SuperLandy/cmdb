@@ -13,6 +13,12 @@ class Administrator(models.Model):
     date_updated = models.DateTimeField(max_length=256, null=True)
 
 
+class AssetGroup(models.Model):
+
+    group_id = models.UUIDField(max_length=36, default=uuid4, primary_key=True)
+    group_name = models.CharField(max_length=128, null=True)
+
+
 class Asset(models.Model):
 
     id = models.UUIDField(max_length=36, default=uuid4, primary_key=True)
@@ -23,6 +29,7 @@ class Asset(models.Model):
     port = models.CharField(max_length=5)
     is_active = models.BooleanField(null=False, default=True)
     assets_user = models.ForeignKey(Administrator, blank=True, null=True, on_delete=models.SET_NULL)
+    assets_group = models.ForeignKey(AssetGroup, blank=True, null=True, on_delete=models.SET_NULL)
     vendor = models.CharField(max_length=128, null=True)
     model = models.CharField(max_length=128, null=True)
     cpu_cores = models.CharField(max_length=128, null=True)

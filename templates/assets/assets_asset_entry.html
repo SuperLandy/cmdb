@@ -50,14 +50,26 @@
                     </tr><tr>
                     <tr>
                         <td>资产用户:</td>
-                            <td><b>
+                            <td>
+                                <b>
                                 <select name="assets_id">
                                     {% for row in user_obj %}
                                             <option value="{{ row.id }}">{{ row.name }}</option>
                                     {% endfor %}
                                 </select>
                             </b>
-                    </tr><tr>
+                    </tr>
+                    <tr>
+                        <td>资产组:</td>
+                            <td><b>
+                                <select name="group_id">
+                                    {% for row in group_obj %}
+                                            <option value="{{ row.group_id }}">{{ row.group_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </b>
+                    </tr>
+                    <tr>
                         <td>制造商:</td>
                         <td><b><input type="text" name="vendor"></b></td>
                     </tr>
@@ -112,7 +124,7 @@
                 success: function (result) {
                     if(result.msg == '0000'){
                         alert('资产已成功录入'),
-                        window.location.href = '/assets/asset/'
+                        window.location.href = '/assets/asset/group/'
                     }else {
                         alert(result.msg )
                     }
