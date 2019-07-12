@@ -85,8 +85,9 @@ $ systemctl start nginx
 
 ## 创建超级管理员
 $ cd /opt/cmdb/cmdb
-$ source /opt/py3/bin/activate
+$ source /opt/py3/bin/activate  
 $ python manage.py createsuperuser #根据提示输入账号密码
 
 ## 更新
+$ source /opt/py3/bin/activate  
 $ cd /opt/cmdb/ && git pull
