@@ -7,7 +7,7 @@
 ## 环境
 系统: CentOS 7  
 目录: /opt  
-数据库: mariadb  
+数据库: mariadb5.5  
 web： nginx  
 
 ## 开始安装
@@ -18,7 +18,7 @@ $ setenforce 0
 $ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config  
 
 ## 安装依赖包
-$ yum -y install epel-release 
+$ yum -y install epel-release  
 $ yum -y install git nginx  
 
 # 安装 Mariadb
