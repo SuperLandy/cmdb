@@ -48,8 +48,8 @@ $ cd /opt/
 $ git clone --depth=1 https://github.com/SuperLandy/cmdb.git  
 
 ## 安装 Python 库依赖
-$ pip install --upgrade pip setuptools -i https://pypi.tuna.tsinghua.edu.cn/simple
-$ pip install -r /opt/cmdb/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple 
+$ pip install --upgrade pip setuptools -i https://pypi.tuna.tsinghua.edu.cn/simple  
+$ pip install -r /opt/cmdb/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple  
 
 ## 修改 cmdb 数据库配置文件
 $ cd /opt/cmdb/cmdb/  
