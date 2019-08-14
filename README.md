@@ -18,7 +18,8 @@ $ setenforce 0
 $ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config  
 
 ## 安装依赖包
-$ yum -y install wget gcc epel-release git nginx  
+$ yum -y install epel-release 
+$ yum -y install git nginx  
 
 # 安装 Mariadb
 $ yum -y install mariadb mariadb-devel mariadb-server MariaDB-shared  
@@ -26,8 +27,9 @@ $ systemctl enable mariadb
 $ systemctl start mariadb  
 
 # 创建数据库 Cmdb 并授权
-$ DB_PASSWORD=`iamadmin`  # 设置数据库密码  
-$ mysql -uroot -e "create database cmdb default charset 'utf8'; grant all on cmdb.* to \
+$ DB_PASSWORD=`iamadmin`  # 设置数据库密码 
+$ mysqladmin -uroot passowd $DB_PASSWORD
+$ mysql -uroot -p$DB_PASSWORD -e "create database cmdb default charset 'utf8'; grant all on cmdb.* to \
 'cmdb'@'127.0.0.1' identified by '$DB_PASSWORD'; flush privileges;"  
 
 ## 安装 Python3.6
@@ -46,8 +48,8 @@ $ cd /opt/
 $ git clone --depth=1 https://github.com/SuperLandy/cmdb.git  
 
 ## 安装 Python 库依赖
-$ pip install --upgrade pip setuptools  
-$ pip install -r /opt/cmdb/requirements.txt  
+$ pip install --upgrade pip setuptools -i https://pypi.tuna.tsinghua.edu.cn/simple
+$ pip install -r /opt/cmdb/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple 
 
 ## 修改 cmdb 数据库配置文件
 $ cd /opt/cmdb/cmdb/  
