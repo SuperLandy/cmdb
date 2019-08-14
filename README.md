@@ -27,10 +27,10 @@ $ systemctl enable mariadb
 $ systemctl start mariadb  
 
 # 创建数据库 Cmdb 并授权
-$ DB_PASSWORD=`iamadmin`  # 设置数据库密码 
-$ mysqladmin -uroot passowd $DB_PASSWORD
-$ mysql -uroot -p$DB_PASSWORD -e "create database cmdb default charset 'utf8'; grant all on cmdb.* to \
-'cmdb'@'127.0.0.1' identified by '$DB_PASSWORD'; flush privileges;"  
+$ DB_PASSWORD='iamadmin'  # 设置数据库密码  
+$ mysqladmin -uroot passowd $DB_PASSWORD  
+$ mysql -uroot -p$DB_PASSWORD -e "create database cmdb default charset 'utf8'; \  
+grant all on cmdb.* to 'cmdb'@'127.0.0.1' identified by '$DB_PASSWORD'; flush privileges;"  
 
 ## 安装 Python3.6
 $ yum -y install python36 python36-devel  
