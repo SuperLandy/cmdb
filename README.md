@@ -10,8 +10,7 @@
 数据库: mariadb5.5  
 web： nginx  
 
-## 开始安装
-$ systemctl start firewalld  
+## 开始安装  
 $ firewall-cmd --zone=public --add-port=80/tcp --permanent  
 $ firewall-cmd --reload  # 重新载入规则  
 $ setenforce 0  
@@ -28,8 +27,8 @@ $ systemctl start mariadb
 
 # 创建数据库 Cmdb 并授权
 $ DB_PASSWORD='iamadmin'  # 设置数据库密码  
-$ mysqladmin -uroot passowd $DB_PASSWORD  
-$ mysql -uroot -p$DB_PASSWORD -e "create database cmdb default charset 'utf8'; \  
+$ mysqladmin -uroot password $DB_PASSWORD  
+$ mysql -uroot -p$DB_PASSWORD -e "create database cmdb default charset 'utf8';   
 grant all on cmdb.* to 'cmdb'@'127.0.0.1' identified by '$DB_PASSWORD'; flush privileges;"  
 
 ## 安装 Python3.6
