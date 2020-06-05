@@ -1,4 +1,4 @@
-Django==2.1.11
+Django==2.2.13
 PyMySQL==0.9.3
 django-uuid-pk==0.2
 uuid==1.30
