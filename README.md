@@ -1,9 +1,9 @@
 ## IT资产管理系统
+[![GitHub Stars](https://img.shields.io/github/stars/SuperLandy/cmdbr?color=%231890FF&style=flat-square)](https://github.com/SuperLandy/cmdb)
+[![GitHub All Releases](https://img.shields.io/github/downloads/SuperLandy/cmdb/total)](https://github.com/SuperLandy/cmdb/releases)
+
 ![图例](https://github.com/SuperLandy/cmdb/blob/master/example.png)
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/riskscanner/riskscanner)](https://github.com/riskscanner/riskscanner/releases/latest)
-[![GitHub Stars](https://img.shields.io/github/stars/riskscanner/riskscanner?color=%231890FF&style=flat-square)](https://github.com/riskscanner/riskscanner)
-[![GitHub All Releases](https://img.shields.io/github/downloads/riskscanner/riskscanner/total)](https://github.com/riskscanner/riskscanner/releases)
 
 # 说明  
 \$ 开头的行表示需要执行的命令  
